@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Santa Reveal</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #10251f;
+    color: #f5e8cc;
+    font-family: Georgia, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    overflow-x: hidden;
+}
+
+.snow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(white 1px, transparent 1px),
+      radial-gradient(#ffffff99 1px, transparent 1px);
+    background-size: 80px 80px, 120px 120px;
+    background-position: 0 0, 35px 45px;
+    opacity: .35;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    padding: 35px 25px;
+    text-align: center;
+    background: #f5e8cc;
+    color: #17352a;
+    border: 5px double #c69b4a;
+    border-radius: 22px;
+    box-shadow: 0 15px 50px #0008;
+}
+
+.top {
+    letter-spacing: 5px;
+    font-size: 13px;
+    color: #d8bd82;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.subtitle {
+    color: #667568;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+.gift {
+    font-size: 75px;
+    margin: 20px;
+}
+
+button {
+    background: #b52d32;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    padding: 17px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button:hover {
+    background: #922126;
+}
+
+#result {
+    display: none;
+    margin-top: 25px;
+}
+
+#recipient {
+    font-size: 38px;
+    color: #b52d32;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.footer {
+    margin-top: 30px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #667568;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="snow"></div>
+
+<div class="card">
+
+    <div class="top"> SECRET SANTA (but better) </div>
+
+    <h1>The Secret is Out...</h1>
+
+    <p class="subtitle">
+        Your Christmas surprise is waiting.
+    </p>
+
+    <div class="gift">🎁</div>
+
+    <button id="revealButton" onclick="reveal()">
+        REVEAL MY PERSON
+    </button>
+
+    <div id="result">
+        <p>You're buying a present for:</p>
+        <div id="recipient"></div>
+        <p>Keep it secret! </p>
+    </div>
+
+    <div class="footer">
+        KEEP IT SECRET. KEEP IT FESTIVE.
+    </div>
+
+</div>
+
+<script>
+const assignments = {
+    "Monika": "Ben",
+    "Darren": "Toby",
+    "Sarah": "Monika",
+    "Ben": "Seb",
+    "Seb": "Sarah",
+    "Zara": "Darren",
+    "Toby": "Zara"
+};
+
+const params = new URLSearchParams(window.location.search);
+const person = params.get("person");
+
+function reveal() {
+    const name = Object.keys(assignments).find(
+        n => n.toLowerCase() === (person || "").toLowerCase()
+    );
+
+    if (!name) {
+        alert("This isn't a valid personal link!");
+        return;
+    }
+
+    document.getElementById("recipient").textContent =
+        assignments[name];
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("revealButton").style.display = "none";
+}
+</script>
+
+</body>
+</html>
